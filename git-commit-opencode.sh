@@ -18,20 +18,14 @@ if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   exit 1
 fi
 
-# 2) Check if there are actually changes to commit
-if git diff --cached --quiet; then
-  echo "No changes staged. Nothing to do."
-  exit 0
-fi
-
-# 3) Check for unstaged changes (files with unstaged modifications)
+# 2) Check for unstaged changes (files with unstaged modifications)
 UNSTAGED="$(git status --porcelain | grep -E '^ [^ ]|^\?')" || true
 if [[ -n "$UNSTAGED" ]]; then
   echo -e "\033[38;5;208mError: You have unstaged changes or untracked files. Please stage your changes with 'git add' before running this script.\033[0m"
   exit 1
 fi
 
-# 4) Prepare prompt with staged diff and call Opencode
+# 3) Prepare prompt with staged diff and call Opencode
 echo "Generating commit message using ${MODEL:-default model}..."
 
 # Show a quick summary of staged files
