@@ -122,7 +122,9 @@ SUBJECT="${SUBJECT%.}"
 # Reconstruct final message (use real newlines, not literal "\n")
 FINAL_MSG="$SUBJECT"
 if [[ -n "${BODY//[[:space:]]/}" ]]; then
-  FINAL_MSG="$FINAL_MSG"$'\n\n'"$BODY"
+  # Convert body lines to bullet points
+  BODY_WITH_BULLETS="$(printf "%s\n" "$BODY" | sed '/^[[:space:]]*$/d' | sed 's/^[[:space:]]*/• /')"
+  FINAL_MSG="$FINAL_MSG"$'\n\n'"$BODY_WITH_BULLETS"
 fi
 
 # Append Co-authored-by trailer if missing and OPENCODE_COAUTHOR is set
