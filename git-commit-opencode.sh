@@ -119,16 +119,16 @@ if [ "${#SUBJECT}" -gt 50 ]; then
 fi
 SUBJECT="${SUBJECT%.}"
 
-# Reconstruct final message
+# Reconstruct final message (use real newlines, not literal "\n")
 FINAL_MSG="$SUBJECT"
 if [[ -n "${BODY//[[:space:]]/}" ]]; then
-  FINAL_MSG="$FINAL_MSG\n\n$BODY"
+  FINAL_MSG="$FINAL_MSG"$'\n\n'"$BODY"
 fi
 
 # Append Co-authored-by trailer if missing and OPENCODE_COAUTHOR is set
 if [[ -n "${OPENCODE_COAUTHOR:-}" ]]; then
   if ! printf "%s\n" "$FINAL_MSG" | grep -qF "$OPENCODE_COAUTHOR"; then
-    FINAL_MSG="$FINAL_MSG\n\n$OPENCODE_COAUTHOR"
+    FINAL_MSG="$FINAL_MSG"$'\n\n'"$OPENCODE_COAUTHOR"
   fi
 fi
 
