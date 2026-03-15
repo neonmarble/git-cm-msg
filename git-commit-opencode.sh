@@ -55,13 +55,14 @@ else
 fi
 
 # Build prompt with Conventional Commits specification
-PROMPT="Generate a concise git commit subject and a multi-line body describing the following staged changes. 
-Follow Conventional Commits specification (https://www.conventionalcommits.org):
-- Subject must be in format: <type>: <description>
-- Type must be one of: feat, fix, docs, style, refactor, perf, test, chore, etc.
-- Subject must be 50 characters max, imperative mood, no trailing period
-- Body should explain what and why, not how
-- Output ONLY the commit message (subject and body), no code fences or commentary
+PROMPT="Analyze the following staged changes and generate a Git commit message strictly adhering to the Conventional Commits specification:
+
+### CONSTRAINTS:
+- **Format**: <type>([optional scope]): <description> followed by a blank line and a multi-line body.
+- **Allowed Types**: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert.
+- **Subject**: Max 50 characters, imperative mood ('Add', not 'Added'), no trailing period, lowercase description.
+- **Body**: Max 72 characters per line. Explain the 'why' and 'what' (rationale), not the 'how' (code details).
+- **Output**: Return ONLY the raw commit message. No markdown code fences, no headers, and no introductory or concluding commentary.
 
 Staged files:
 $(git --no-pager diff --cached --name-only)
