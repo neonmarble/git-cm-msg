@@ -46,23 +46,12 @@ require_interactive_input() {
   [[ -t 0 ]] || die "This script requires an interactive terminal for prompts."
 }
 
-get_unstaged_entries() {
-  git status --porcelain | grep -E '^.[^ ]|^\?\?' || true
-}
-
 collect_staged_changes() {
   STAGED_FILES="$(git --no-pager diff --cached --name-only)"
   STAGED_DIFF="$(git --no-pager diff --cached || true)"
 }
 
 validate_staged_changes() {
-  local unstaged
-
-  unstaged="$(get_unstaged_entries)"
-  if [[ -n "${unstaged}" ]]; then
-    die "You have unstaged changes or untracked files. Please stage everything with 'git add' before running this script."
-  fi
-
   collect_staged_changes
 
   log "Staged files:"
