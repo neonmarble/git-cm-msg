@@ -14,8 +14,8 @@ Generate Conventional Commit messages for staged changes with OpenCode.
 ## How it works
 
 - Requires a git repository and the `opencode` CLI in `PATH`
-- Requires all changes to already be staged
-- Refuses to run if there are unstaged or untracked files
+- Uses only the staged snapshot when generating the commit message
+- Ignores unstaged and untracked files outside the index
 - Builds a prompt from the staged file list and staged diff
 - Falls back to a staged-file summary when the diff is too large
 - Shows the proposed commit message and lets you `commit`, `edit`, or `abort`
